@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
 import calculator.*;
+import visitor.OutPutExpressionVisitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +59,7 @@ public class TestDivides {
 	@SuppressWarnings("ConstantConditions")
 	@Test
 	public void testEquals2() {
-		assertDoesNotThrow(() -> op.equals(null)); // Direct way to to test if the null case is handled.
+		assertDoesNotThrow(() -> op.equals(null)); // Direct way to test if the null case is handled.
 	}
 
 	@Test
@@ -96,25 +97,37 @@ public class TestDivides {
 	@Test
 	public void testPrefix() {
 		String prefix = "/ (" + value1 + ", " + value2 + ")";
-		assertEquals(prefix, op.toString(Notation.PREFIX));
-		op.notation = Notation.PREFIX;
-		assertEquals(prefix, op.toString());
+		OutPutExpressionVisitor out = new OutPutExpressionVisitor(Notation.PREFIX);
+		out.visit(op);
+		assertEquals(prefix, out.getOutput());
+
 	}
 
 	@Test
 	public void testInfix() {
 		String infix = "( " + value1 + " / " + value2 + " )";
-		assertEquals(infix, op.toString(Notation.INFIX));
-		op.notation = Notation.INFIX;
-		assertEquals(infix, op.toString());
+		OutPutExpressionVisitor out = new OutPutExpressionVisitor(Notation.INFIX);
+		out.visit(op);
+		assertEquals(infix, out.getOutput());
 	}
 
 	@Test
 	public void testPostfix() {
 		String postfix = "(" + value1 + ", " + value2 + ") /";
-		assertEquals(postfix, op.toString(Notation.POSTFIX));
-		op.notation = Notation.POSTFIX;
-		assertEquals(postfix, op.toString());
+		OutPutExpressionVisitor out = new OutPutExpressionVisitor(Notation.POSTFIX);
+		out.visit(op);
+		assertEquals(postfix, out.getOutput());
 	}
+
+	@Test
+	public void testZeroDivision(){
+		try {
+			int div = op.op(value1, 0);
+			fail("Division by zero is not supported");
+		} catch (IllegalArgumentException e) {
+			System.out.print("Division by zero is not supported");
+		}
+	}
+
 
 }

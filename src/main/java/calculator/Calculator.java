@@ -1,6 +1,7 @@
 package calculator;
 
 import visitor.Evaluator;
+import visitor.OutPutExpressionVisitor;
 
 public class Calculator {
 
@@ -14,7 +15,7 @@ public class Calculator {
     */
 
     public void print(Expression e) {
-        System.out.println("The result of evaluating expression " + e);
+        System.out.println("The result of evaluating expression " + output(e));
         System.out.println("is: " + eval(e) + ".");
         System.out.println();
     }
@@ -34,6 +35,12 @@ public class Calculator {
         e.accept(v);
         // and return the result of the evaluation at the end of the process
         return v.getResult();
+    }
+
+    public String output(Expression e){
+        OutPutExpressionVisitor out = new OutPutExpressionVisitor(Notation.INFIX);
+        e.accept(out);
+        return out.getOutput();
     }
 
     /*

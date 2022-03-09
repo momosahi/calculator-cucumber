@@ -15,7 +15,7 @@ final public class Times extends Operation
 		super(elist,n);
 		symbol = "*";
 		neutral = 1;
-		}
+  }
   
   public int op(int l, int r)
     { return (l*r); }

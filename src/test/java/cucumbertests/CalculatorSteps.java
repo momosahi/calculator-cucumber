@@ -2,9 +2,11 @@ package cucumbertests;
 
 import calculator.*;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import visitor.OutPutExpressionVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,25 @@ public class CalculatorSteps {
 	@Then("^its (.*) notation is (.*)$")
 	public void thenItsNotationIs(String notation, String s) {
 		if (notation.equals("PREFIX")||notation.equals("POSTFIX")||notation.equals("INFIX")) {
-			op.notation = Notation.valueOf(notation);
+			OutPutExpressionVisitor outVisitor = null;
+			switch (notation) {
+				case "PREFIX":
+					outVisitor = new OutPutExpressionVisitor(Notation.PREFIX);
+					break;
+
+				case "INFIX":
+					outVisitor = new OutPutExpressionVisitor(Notation.INFIX);
+					break;
+
+				case "POSTFIX":
+					outVisitor = new OutPutExpressionVisitor(Notation.POSTFIX);
+					break;
+
+				default:
+					System.out.println("This case should never occur.");
+
+			}
+			outVisitor.visit(op);
 			assertEquals(s, op.toString());
 		}
 		else fail(notation + " is not a correct notation! ");
@@ -113,4 +133,14 @@ public class CalculatorSteps {
 
 	}
 
+
+	@Then("the operation raises an IllegalArgumentException")
+	public void theOperationRaisesAnIllegalArgumentException() {
+		throw new IllegalArgumentException("Division by zero is not supported");
+	}
+
+	@And("When second number is 0")
+	public void whenSecondNumberIs() {
+		params.add(new MyNumber(0));
+	}
 }

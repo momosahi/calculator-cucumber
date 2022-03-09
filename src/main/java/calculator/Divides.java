@@ -15,8 +15,12 @@ final public class Divides extends Operation
 	super(elist,n);
 	symbol = "/";
 	neutral = 1;
-    }
+  }
   
-  public int op(int l, int r)
-    { return (l/r); }
+  public int op(int l, int r) {
+	  if (r == 0){
+		  throw new IllegalArgumentException("Division by zero is not supported");
+	  }
+	  return (l/r);
+  }
 }

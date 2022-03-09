@@ -4,7 +4,6 @@ import visitor.Visitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public abstract class Operation implements Expression
 {  
@@ -56,7 +55,7 @@ public abstract class Operation implements Expression
 	return 1 + args.stream()
 			   .mapToInt(Expression::countDepth)
 			   .max()
-			   .getAsInt();  
+			   .orElseThrow();
   }
 
   final public Integer countOps() {
@@ -64,7 +63,7 @@ public abstract class Operation implements Expression
 	return 1 + args.stream()
 			   .mapToInt(Expression::countOps)
 			   .reduce(Integer::sum)
-			   .getAsInt();
+			   .orElseThrow();
   }
 
   final public Integer countNbs() {
@@ -72,31 +71,10 @@ public abstract class Operation implements Expression
 	return args.stream()
 			   .mapToInt(Expression::countNbs)
 			   .reduce(Integer::sum)
-			   .getAsInt();  
+			   .orElseThrow();
   }
 
-  @Override
-  final public String toString() {
-  	return toString(notation);
-  }
 
-  final public String toString(Notation n) {
-   Stream<String> s = args.stream().map(Object::toString);
-   switch (n) {
-	   case INFIX: return "( " +
-			              s.reduce((s1,s2) -> s1 + " " + symbol + " " + s2).get() +
-			              " )";
-	   case PREFIX: return symbol + " " +
-			               "(" +
-			               s.reduce((s1,s2) -> s1 + ", " + s2).get() +
-			               ")";
-	   case POSTFIX: return "(" +
-			                s.reduce((s1,s2) -> s1 + ", " + s2).get() +
-			                ")" +
-			                " " + symbol;
-	   default: return "This case should never occur.";
-	  }
-  }
 
 	//Two Operation expressions are equal if their list of arguments is equal and they are the same operation
 	@Override
@@ -120,6 +98,10 @@ public abstract class Operation implements Expression
 		result = prime * result + symbol.hashCode();
 		result = prime * result + args.hashCode();
 		return result;
+	}
+
+	public String getSymbol(){
+	  return symbol;
 	}
 
 }
