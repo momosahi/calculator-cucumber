@@ -72,15 +72,13 @@ Feature: Integer Arithmetic Expressions
     When I provide a first number <n1>
     And I provide a second number <n2>
     Then the operation evaluates to <result>
-    And When second number is 0
-    Then the operation raises an IllegalArgumentException
+
 
     Examples:
       |n1|n2|result|
       |35|5|7|
       |7|5|1|
       |5|7|0|
-      |5|0| IllegalArgumentException
 
 
   Scenario Outline: Evaluating arithmetic operations with two integer parameters

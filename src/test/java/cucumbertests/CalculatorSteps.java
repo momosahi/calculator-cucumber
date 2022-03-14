@@ -21,7 +21,7 @@ public class CalculatorSteps {
 	private Calculator c;
 
 	@Before
-    public void resetMemoryBeforeEachScenario() {
+	public void resetMemoryBeforeEachScenario() {
 		params = null;
 		op = null;
 	}
@@ -37,11 +37,25 @@ public class CalculatorSteps {
 		params = new ArrayList<>(); // create an empty set of parameters to be filled in
 		try {
 			switch (s) {
-				case "+": { op = new Plus(params); break; }
-				case "-": { op = new Minus(params); break; }
-				case "*": { op = new Times(params); break; }
-				case "/": { op = new Divides(params); break; }
-				default: { fail(); }
+				case "+": {
+					op = new Plus(params);
+					break;
+				}
+				case "-": {
+					op = new Minus(params);
+					break;
+				}
+				case "*": {
+					op = new Times(params);
+					break;
+				}
+				case "/": {
+					op = new Divides(params);
+					break;
+				}
+				default: {
+					fail();
+				}
 			}
 		} catch (IllegalConstruction e) {
 			fail();
@@ -58,7 +72,7 @@ public class CalculatorSteps {
 		// Since we only use one line of input, we use get(0) to take the first line of the list,
 		// which is a list of strings, that we will manually convert to integers:
 		numbers.get(0).forEach(n -> params.add(new MyNumber(Integer.parseInt(n))));
-	    params.forEach(n -> System.out.println("value ="+ n));
+		params.forEach(n -> System.out.println("value =" + n));
 		op = null;
 	}
 
@@ -70,15 +84,17 @@ public class CalculatorSteps {
 	public void givenTheSum(int n1, int n2) {
 		try {
 			params = new ArrayList<>();
-		    params.add(new MyNumber(n1));
-		    params.add(new MyNumber(n2));
-		    op = new Plus(params);}
-		catch(IllegalConstruction e) { fail(); }
+			params.add(new MyNumber(n1));
+			params.add(new MyNumber(n2));
+			op = new Plus(params);
+		} catch (IllegalConstruction e) {
+			fail();
+		}
 	}
 
 	@Then("^its (.*) notation is (.*)$")
 	public void thenItsNotationIs(String notation, String s) {
-		if (notation.equals("PREFIX")||notation.equals("POSTFIX")||notation.equals("INFIX")) {
+		if (notation.equals("PREFIX") || notation.equals("POSTFIX") || notation.equals("INFIX")) {
 			OutPutExpressionVisitor outVisitor = null;
 			switch (notation) {
 				case "PREFIX":
@@ -99,8 +115,7 @@ public class CalculatorSteps {
 			}
 			outVisitor.visit(op);
 			assertEquals(s, op.toString());
-		}
-		else fail(notation + " is not a correct notation! ");
+		} else fail(notation + " is not a correct notation! ");
 	}
 
 	@When("^I provide a (.*) number (\\d+)$")
@@ -112,11 +127,24 @@ public class CalculatorSteps {
 	public void thenTheOperationIs(String s, int val) {
 		try {
 			switch (s) {
-				case "sum": { op = new Plus(params); break; }
-				case "product": { op = new Times(params); break; }
-				case "quotient": { op = new Divides(params); break; }
-				case "difference": { op = new Minus(params); break; }
-				default: fail();
+				case "sum": {
+					op = new Plus(params);
+					break;
+				}
+				case "product": {
+					op = new Times(params);
+					break;
+				}
+				case "quotient": {
+					op = new Divides(params);
+					break;
+				}
+				case "difference": {
+					op = new Minus(params);
+					break;
+				}
+				default:
+					fail();
 			}
 			assertEquals(val, c.eval(op));
 		} catch (IllegalConstruction e) {
@@ -133,14 +161,6 @@ public class CalculatorSteps {
 
 	}
 
-
-	@Then("the operation raises an IllegalArgumentException")
-	public void theOperationRaisesAnIllegalArgumentException() {
-		throw new IllegalArgumentException("Division by zero is not supported");
-	}
-
-	@And("When second number is 0")
-	public void whenSecondNumberIs() {
-		params.add(new MyNumber(0));
-	}
 }
+
+
