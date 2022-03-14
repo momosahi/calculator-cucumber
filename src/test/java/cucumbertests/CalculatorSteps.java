@@ -114,7 +114,7 @@ public class CalculatorSteps {
 
 			}
 			outVisitor.visit(op);
-			assertEquals(s, op.toString());
+			assertEquals(s, outVisitor.getOutput());
 		} else fail(notation + " is not a correct notation! ");
 	}
 
