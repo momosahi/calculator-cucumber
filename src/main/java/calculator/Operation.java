@@ -76,7 +76,7 @@ public abstract class Operation implements Expression
 
 
 
-	//Two Operation expressions are equal if their list of arguments is equal and they are the same operation
+	//Two Operation expressions are equal if their list of arguments is equal, and they are the same operation
 	@Override
 	public boolean equals(Object o) {
 		if (o == null) return false; // No object should be equal to null

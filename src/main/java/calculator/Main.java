@@ -27,7 +27,7 @@ public class Main {
 		c.eval(e);
 
 	    List<Expression> params = new ArrayList<>();
-	    Collections.addAll(params, new MyNumber(3), new MyNumber(4), new MyNumber(5));
+	    Collections.addAll(params, new MyNumber(4), new MyNumber(5));
 	    e = new Plus(params,Notation.PREFIX);
 		c.printExpressionDetails(e);
 		c.eval(e);

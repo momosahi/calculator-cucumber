@@ -9,7 +9,7 @@ final public class Plus extends Operation
 	super(elist);
 	symbol = "+";
 	neutral = 0;
-	}
+  }
   
   public Plus(List<Expression> elist, Notation n) throws IllegalConstruction {
 		super(elist,n);
